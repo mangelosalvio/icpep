@@ -19,6 +19,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/new-membership','MembershipsController@create');
 Route::get('/home', 'HomeController@index');
 Route::resource('/registrations','RegistrationsController');
 Route::resource('/memberships','MembershipsController');

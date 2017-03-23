@@ -4,7 +4,9 @@
 <div class="container-fluid" id="app">
     <div class="row">
 
-        @include('partials.search',$search_data)
+        @if( Auth::check() )
+            @include('partials.search',$search_data)
+        @endif
 
         <div class="col-md-12">
             @if( isset($membership) )
@@ -107,7 +109,8 @@
                             ]) !!}
                             <div class="col-sm-4 {{ $errors->has('date_of_birth') ? 'has-error' : '' }}" >
                                 {!! Form::text('date_of_birth', null, [
-                                'class' => 'form-control has-error',
+                                'class' => 'form-control has-error datepicker',
+                                'readonly' => true
                                 ]) !!}
                             </div>
 
@@ -207,7 +210,7 @@
                             ]) !!}
                             <div class="col-sm-4 {{ $errors->has('payment_date') ? 'has-error' : '' }}" >
                                 {!! Form::text('payment_date', '2017-02-23', [
-                                'class' => 'form-control has-error',
+                                'class' => 'form-control has-error datepicker',
                                 ]) !!}
                             </div>
                         </div>
@@ -420,9 +423,9 @@
                     </fieldset>
 
                     <div class="row">
-                        <div class="col-md-8 col-md-offset-2">
+                        <div class="col-md-12">
                             {!! Form::submit('Save', [
-                            'class' => 'btn btn-primary'
+                            'class' => 'btn btn-primary form-control'
                             ]) !!}
                         </div>
                     </div>
@@ -437,5 +440,6 @@
     <script>window.id = {{ $membership->id  }};</script>
 @endif
 <script src="/js/memberships.js"></script>
+
 
 @endsection

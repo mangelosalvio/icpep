@@ -8,7 +8,9 @@ use App\Membership;
 use App\Registration;
 use App\TypeOfMembership;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rule;
 
 class MembershipsController extends Controller
 {
@@ -19,7 +21,9 @@ class MembershipsController extends Controller
             'education',
             'destroyEducation',
             'companies',
-            'destroyCompany'
+            'destroyCompany',
+            'create',
+            'store'
         ]);
 
         $route = "memberships";
@@ -36,9 +40,11 @@ class MembershipsController extends Controller
         $this->arr_rules  = [
             'last_name' => 'required',
             'first_name' => 'required',
-            'company_name' => 'required',
             'type_of_application' => 'required',
-            'type_of_membership' => 'required'
+            'type_of_membership' => 'required',
+            'type_of_member' => 'required',
+            'gender' => 'required',
+            'place_of_birth' => 'required',
         ];
 
         $search_data = [ 'search_url' => $this->route ];
@@ -68,7 +74,6 @@ class MembershipsController extends Controller
     }
 
     public function create(){
-
         return view('memberships.memberships',compact([
         ]));
     }
@@ -77,6 +82,7 @@ class MembershipsController extends Controller
 
         //dd(request()->has('educations'));
 
+        $this->arr_rules['email'] = ['required' , Rule::unique('memberships')];
 
         $this->validate($request,$this->arr_rules);
         $Membership = Membership::create($request->all());
@@ -84,7 +90,12 @@ class MembershipsController extends Controller
         $this->saveEducation($Membership, $request);
         $this->saveCompanies($Membership, $request);
 
-        return Redirect::to("/{$this->route}/{$Membership->id}/edit")->with('flash_message','Information Saved');
+        if ( Auth::check() ) {
+            return Redirect::to("/{$this->route}/{$Membership->id}/edit")->with('flash_message','Information Saved.');
+        } else {
+            return Redirect::to("/new-membership")->with('flash_message','Information Saved. Admin will validate your membership');
+        }
+
     }
 
     public function edit(Membership $membership){
@@ -94,6 +105,8 @@ class MembershipsController extends Controller
     }
 
     public function update(Request $request, Membership $membership){
+
+        $this->arr_rules['email'] = ['required' , Rule::unique('memberships')->ignore($membership->id)];
 
         $this->validate($request,$this->arr_rules);
         $membership->update($request->all());

@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker3.min.css"/>
 
     <!-- Scripts -->
     <script>
@@ -21,6 +22,7 @@
     </script>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
 </head>
 <body>
     <div>
@@ -55,7 +57,7 @@
         @if( Session::get('flash_message') )
             <script>
                 setTimeout(function(){
-                    $("#success-alert").slideUp(2000);
+                    $("#success-alert").slideUp(5000);
                 },2000);
             </script>
         @endif
@@ -65,3 +67,11 @@
 </body>
 
 </html>
+<script>
+    $('.datepicker').datepicker({
+        format : 'yyyy-mm-dd',
+        changeMonth: true,
+        changeYear: true,
+        autoclose : true
+    });
+</script>
