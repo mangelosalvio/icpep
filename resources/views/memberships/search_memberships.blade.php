@@ -1,9 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+<style type="text/css">
+    .blue {
+        color: #0000CC;
+        font-weight: bold;
+    }
+
+    .red {
+        color : #f20d0d;
+        font-weight: bold;
+    }
+</style>
 <div class="container-fluid">
     <div class="row">
-
         @include('partials.search', $search_data)
 
         <div class="col-md-12">
@@ -25,6 +35,7 @@
                             <th>MOBILE #</th>
                             <th>EMAIL</th>
                             <th nowrap>OR #</th>
+                            <th nowrap>Status</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -36,6 +47,7 @@
                                 <td>{{ $membership->mobile_number }}</td>
                                 <td>{{ $membership->email }}</td>
                                 <td>{{ $membership->or_no }}</td>
+                                <td class="{{ ( $membership->is_approved ) ? "blue" : "red" }}">{{ ( $membership->is_approved ) ? "Approved" : "Pending" }}</td>
                             </tr>
                         @endforeach
                         </tbody>

@@ -63,9 +63,10 @@ class MembershipsController extends Controller
             $memberships = Membership::where('last_name','like',"%$keyword%")
                 ->orWhere('first_name','like',"%$keyword%")
                 ->orWhere('middle_name','like',"%$keyword%")
+                ->latest()
                 ->paginate();
         } else {
-            $memberships = Membership::paginate();
+            $memberships = Membership::latest()->paginate();
         }
 
         return view("{$this->route}.search_{$this->route}",compact([
@@ -90,6 +91,11 @@ class MembershipsController extends Controller
         $this->saveEducation($Membership, $request);
         $this->saveCompanies($Membership, $request);
 
+        if ( $request->has('action') ) {
+            $Membership->is_approved = $request->input('action') == "approve" ? 1 : 0;
+            $Membership->save();
+        }
+
         if ( Auth::check() ) {
             return Redirect::to("/{$this->route}/{$Membership->id}/edit")->with('flash_message','Information Saved.');
         } else {
@@ -110,6 +116,11 @@ class MembershipsController extends Controller
 
         $this->validate($request,$this->arr_rules);
         $membership->update($request->all());
+
+        if ( $request->has('action') ) {
+            $membership->is_approved = $request->input('action') == "approve" ? 1 : 0;
+            $membership->save();
+        }
 
         $this->saveEducation($membership, $request);
         $this->saveCompanies($membership, $request);

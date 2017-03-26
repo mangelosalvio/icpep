@@ -40,4 +40,8 @@ class Membership extends Model
     public function companies(){
         return $this->hasMany(Company::class);
     }
+
+    public function companyMemberships(){
+        return $this->hasMany(CompanyMembership::class);
+    }
 }

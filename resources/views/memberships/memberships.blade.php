@@ -425,10 +425,27 @@
                     <div class="row">
                         <div class="col-md-12">
                             {!! Form::submit('Save', [
-                            'class' => 'btn btn-primary form-control'
+                            'class' => 'btn btn-info form-control'
                             ]) !!}
                         </div>
                     </div>
+
+                    @if( Auth::check() )
+                        @if( $membership->is_approved )
+                            <div class="row">
+                                <div class="col-md-12" style="margin-top:10px;">
+                                    <button name="action" class="btn btn-warning form-control" value="revert">Revert to Pending</button>
+                                </div>
+                            </div>
+                        @else
+                            <div class="row">
+                                <div class="col-md-12" style="margin-top: 10px;">
+                                    <button name="action" class="btn btn-primary form-control" value="approve">Approve</button>
+                                </div>
+                            </div>
+
+                        @endif
+                    @endif
                 </div>
             </div>
 
