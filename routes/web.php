@@ -12,12 +12,21 @@
 */
 
 use App\Registration;
+use App\Stock;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Auth::routes();
+
+Route::get('/barcode', function(Request $request){
+    $barcode = $request->input('barcode');
+
+
+    return response()->json(Stock::whereBarcode($barcode)->first());
+});
 
 Route::get('/new-membership','MembershipsController@create');
 Route::get('/home', 'HomeController@index');
