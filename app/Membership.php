@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Membership extends Model
 {
-
     use SoftDeletes;
 
     protected $fillable = [
@@ -36,6 +35,11 @@ class Membership extends Model
         'position',
         'specialization',
     ];
+
+    protected $dates = [
+        'payment_date'
+    ];
+
     public function educations(){
         return $this->hasMany(Education::class);
     }
@@ -47,4 +51,13 @@ class Membership extends Model
     public function companyMemberships(){
         return $this->hasMany(CompanyMembership::class);
     }
+
+    public function scopeApproved($query){
+        return $query->where('is_approved','1');
+    }
+
+    public function typeOfMembership(){
+        return $this->belongsTo(TypeOfMembership::class);
+    }
+
 }

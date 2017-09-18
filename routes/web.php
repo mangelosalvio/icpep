@@ -49,6 +49,7 @@ Route::get('/reports/cert-membership-regular-1year','ReportsController@certMembe
 Route::get('/reports/cert-membership-associate','ReportsController@certMembershipAssociate');
 Route::get('/reports/cert-membership-regular-3years','ReportsController@certMembershipRegular3Years');
 Route::get('/reports/cert-attendance-with-image','ReportsController@certAttendanceWithImage');
+Route::get('/reports/members-excel','ReportsController@membersExcel');
 
 Auth::routes();
 

@@ -14,6 +14,7 @@
                         <a href="/reports/cert-membership-associate" target="_blank" class="btn btn-default">Print Associate</a>
                         <a href="/reports/cert-membership-regular-1year" target="_blank" class="btn btn-default">Print Regular 1 year</a>
                         <a href="/reports/cert-membership-regular-3years" target="_blank" class="btn btn-default">Print Regulary 3 years</a>
+                        <a href="/reports/members-excel" target="_blank" class="btn btn-default">Members Excel</a>
                     </div>
                 </div>
             </div>

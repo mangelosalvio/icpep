@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Membership;
+use App\MemberStatus;
 use App\Registration;
+use Carbon\Carbon;
 use Codedge\Fpdf\Fpdf\FPDF;
 use fpdi\FPDI;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportsController extends Controller
 {
@@ -195,6 +198,38 @@ class ReportsController extends Controller
             'Cache-Control'       => 'private, max-age=0, must-revalidate',
             'Pragma'              => 'public'
         ]);
+    }
+
+    public function membersExcel(){
+        $data = [];
+
+
+        $Members = Membership::approved()
+                    ->orderBy('last_name')
+                    ->orderBy('first_name')
+                    ->orderBy('middle_name')->get();
+
+        Excel::create('Exportfile', function($excel) use ($Members) {
+            $excel->sheet('Sheet1', function($sheet) use ($Members) {
+                foreach ($Members as $i => $Member) {
+                    $sheet->row($i+1,[
+                        $i+1,
+                        '',
+                        '',
+                        strtoupper($Member->last_name),
+                        strtoupper($Member->first_name),
+                        strtoupper($Member->middle_name),
+                        $Member->payment_date->toFormattedDateString(),
+                        $Member->payment_date->addYears((($Member->type_of_application == 'N') ? 1 : 3) -1 )->month(12)->format("F Y"), //due date
+                        MemberStatus::$type_of_member[$Member->type_of_member],
+                        MemberStatus::$type_of_application[$Member->type_of_application]
+                    ]);
+                }
+            });
+        })->download('xls');
+
+
+
     }
 
 
