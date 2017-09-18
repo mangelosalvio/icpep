@@ -431,19 +431,21 @@
                     </div>
 
                     @if( Auth::check() )
-                        @if( $membership->is_approved )
-                            <div class="row">
-                                <div class="col-md-12" style="margin-top:10px;">
-                                    <button name="action" class="btn btn-warning form-control" value="revert">Revert to Pending</button>
+                        @if( isset($membership) )
+                            @if( $membership->is_approved )
+                                <div class="row">
+                                    <div class="col-md-12" style="margin-top:10px;">
+                                        <button name="action" class="btn btn-warning form-control" value="revert">Revert to Pending</button>
+                                    </div>
                                 </div>
-                            </div>
-                        @else
-                            <div class="row">
-                                <div class="col-md-12" style="margin-top: 10px;">
-                                    <button name="action" class="btn btn-primary form-control" value="approve">Approve</button>
+                            @else
+                                <div class="row">
+                                    <div class="col-md-12" style="margin-top: 10px;">
+                                        <button name="action" class="btn btn-primary form-control" value="approve">Approve</button>
+                                    </div>
                                 </div>
-                            </div>
 
+                            @endif
                         @endif
                     @endif
                 </div>
